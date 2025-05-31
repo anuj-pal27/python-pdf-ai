@@ -1,0 +1,27 @@
+[
+  {
+    "role": "assistant",
+    "content": "Hello! I've successfully processed your document 'UNIT-II-Basic-Structural-Modelling-part-1-1.pdf'. I can help you find information, answer questions, or provide summaries. What would you like to know?",
+    "timestamp": "2025-05-31T21:23:01.592720"
+  },
+  {
+    "role": "user",
+    "content": "Summarize the main points",
+    "timestamp": "2025-05-31T21:23:09.895664"
+  },
+  {
+    "role": "assistant",
+    "content": "Based on your question about 'Summarize the main points', here's the most relevant information from the document:\n\n1. Classes \nUNIT -2 Part 1 \nBasic Structural Modelling \nClasses are the most important building block of any object-oriented system. A class is a \ndescription of a set of objects that share the same attributes, operations, relationships, and \nsemantics. A class implements one or more interfaces. \nYou use classes to capture the vocabulary of the system you are developing. These classes \nmay include abstractions that are part of the problem domain, as well as classes that make \nup an implementation. \nYou can use classes to represent software things, hardware things, and even things that are \npurely conceptual. \n \nGraphically, a class is rendered as a rectangle. \nFigure : Classes \n \nNames \nA class name must be unique within its enclosing package. Every class must have a name \nthat distinguish",
+    "timestamp": "2025-05-31T21:23:09.895687"
+  },
+  {
+    "role": "user",
+    "content": "fix",
+    "timestamp": "2025-05-31T21:29:07.718604"
+  },
+  {
+    "role": "assistant",
+    "content": "Based on your question about 'fix', here's the most relevant information from the document:\n\n1. Classes \nUNIT -2 Part 1 \nBasic Structural Modelling \nClasses are the most important building block of any object-oriented system. A class is a \ndescription of a set of objects that share the same attributes, operations, relationships, and \nsemantics. A class implements one or more interfaces. \nYou use classes to capture the vocabulary of the system you are developing. These classes \nmay include abstractions that are part of the problem domain, as well as classes that make \nup an implementation. \nYou can use classes to represent software things, hardware things, and even things that are \npurely conceptual. \n \nGraphically, a class is rendered as a rectangle. \nFigure : Classes \n \nNames \nA class name must be unique within its enclosing package. Every class must have a name \nthat distinguish",
+    "timestamp": "2025-05-31T21:29:07.718633"
+  }
+]

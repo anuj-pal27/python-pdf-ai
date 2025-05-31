@@ -180,7 +180,7 @@ const Chatbot = ({ documentId, documentName, onClose }) => {
             <div className="flex items-end space-x-2 max-w-xs lg:max-w-md">
               {message.role === 'assistant' && (
                 <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Bot className="w-4 h-4 text-blue-600" />
+                  <Bot className='w-4 h-4 text-blue-600'/>
                 </div>
               )}
               
@@ -241,7 +241,7 @@ const Chatbot = ({ documentId, documentName, onClose }) => {
           <div className="flex justify-start animate-fade-in">
             <div className="flex items-end space-x-2">
               <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                <Bot className="w-4 h-4 text-blue-600" />
+                  <Bot className='w-4 h-4 text-blue-600'/>
               </div>
               <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-md border border-gray-200 shadow-sm">
                 <div className="flex items-center space-x-2">

@@ -76,9 +76,11 @@ const PdfUpload = () => {
             <div className="current-file">
               <FileText size={16} />
               <span>{uploadResult.filename}</span>
+              <div className='border-[1px] border-black rounded-md'>
               <button onClick={handleReset} className="reset-btn">
-                Upload New
+                <CiCirclePlus />
               </button>
+              </div>
             </div>
           )}
           

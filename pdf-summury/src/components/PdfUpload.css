@@ -353,19 +353,17 @@
 }
 
 .reset-btn {
-  background: #ef4444;
-  color: white;
+
+  color: black;
   border: none;
   padding: 0.25rem 0.75rem;
   border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 1.3rem;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
-.reset-btn:hover {
-  background: #dc2626;
-}
+
 
 .upload-section {
   position: relative;
@@ -390,7 +388,7 @@
 }
 
 .upload-btn:hover:not(:disabled) {
-  background: #2563eb;
+  background: rgb(4, 175, 4);
 }
 
 .upload-btn:disabled {
