@@ -78,7 +78,7 @@ const Chatbot = ({ documentId, documentName, onClose }) => {
           message: messageToSend
         })
       });
-
+<CiCirclePlus />
       if (response.ok) {
         const data = await response.json();
         const assistantMessage = {
@@ -157,7 +157,7 @@ const Chatbot = ({ documentId, documentName, onClose }) => {
           <div className="flex items-center space-x-2">
             <button
               onClick={clearHistory}
-              className="p-2 text-white hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+              className="p-2 text-white hover:bg-white hover:bg-<CiCirclePlus />opacity-20 rounded-lg transition-colors"
               title="Clear chat history"
             >
               <Trash2 className="w-4 h-4" />

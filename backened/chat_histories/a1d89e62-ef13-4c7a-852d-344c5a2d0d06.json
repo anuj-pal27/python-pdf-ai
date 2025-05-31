@@ -1,0 +1,17 @@
+[
+  {
+    "role": "assistant",
+    "content": "Hello! I've successfully processed 'new-resume2.pdf' using Groq AI. I'm ready to answer questions about this document. What would you like to know?",
+    "timestamp": "2025-05-31T17:02:44.145160"
+  },
+  {
+    "role": "user",
+    "content": "skills",
+    "timestamp": "2025-05-31T17:02:47.757490"
+  },
+  {
+    "role": "assistant",
+    "content": "Based on your question, here's the most relevant information:\n\nANUJ PAL\n+91-9389526851 ⋄ Etah, Uttar Pradesh\nanujpal27669@gmail.com ⋄ https://www.linkedin.com/in/anuj-pal-dev/ ⋄ https://github.com/anuj-pal27\nEDUCATION\nB.Tech, Raja Balwant Singh Engineering Technical Campus.\n09/2022 to 09/2026\nCGPA- 8.13\nAgra, UP\nIntermediate, Amar Memorial Public School\n 07/2021\nPercentage- 81.6%\nHaldwani,UK\nHigh School,    Amar Memorial Public School\n05/2019\nPercentage- 80%\nHaldwani, UK\nSKILLS\nProgramming Languages: Javascript, Typescript (Beginner), Python , C ,C++\nPROJECTS\nHotel Booking Website (https://airlisting.onrender.com/listings)\n  • Developed a full-stack web a",
+    "timestamp": "2025-05-31T17:02:47.757512"
+  }
+]

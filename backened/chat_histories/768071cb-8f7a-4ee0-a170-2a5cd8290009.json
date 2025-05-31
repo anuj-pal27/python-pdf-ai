@@ -1,0 +1,47 @@
+[
+  {
+    "role": "assistant",
+    "content": "Hello! I've successfully processed your document 'new-resume2.pdf'. I can help you find information, answer questions, or provide summaries. What would you like to know?",
+    "timestamp": "2025-05-31T17:06:36.744972"
+  },
+  {
+    "role": "user",
+    "content": "What are the key findings?",
+    "timestamp": "2025-05-31T17:06:41.016743"
+  },
+  {
+    "role": "assistant",
+    "content": "I couldn't find specific information about 'What are the key findings?' in the document. Could you try asking about the main content or specific sections of the document?",
+    "timestamp": "2025-05-31T17:06:41.016775"
+  },
+  {
+    "role": "user",
+    "content": "specific section which is skills",
+    "timestamp": "2025-05-31T17:06:54.492037"
+  },
+  {
+    "role": "assistant",
+    "content": "Based on the document, here are the skills mentioned:\n\nANUJ PAL\n+91-9389526851 ⋄ Etah, Uttar Pradesh\nanujpal27669@gmail.com ⋄ https://www.linkedin.com/in/anuj-pal-dev/ ⋄ https://github.com/anuj-pal27\nEDUCATION\nB.Tech, Raja Balwant Singh Engineering Technical Campus.\n09/2022 to 09/2026\nCGPA- 8.13\nAgra, UP\nIntermediate, Amar Memorial Public School\n 07/2021\nPercentage- 81.6%\nHaldwani,UK\nHigh School,    Amar Memorial Public School\n05/2019\nPercentage- 80%\nHaldwani, UK\nSKILLS\nProgramming Languages: Javascript, Typescript (Beginner), Python , C ,C++\nPROJECTS\nHotel Booking Website (https://airlisting.onrender.com/listings)\n  • Developed a full-stack web application similar to Airbnb, allowing users to browse hotel listings from \n     various locations, create their own listings, and book accommodations.\n  • Features include hotel listing creation, booking system, and secure authentication/authorization.\n  • Built middlewares for error handling and request validation.\n  • Deployed on Render for seamless access and usability.\nCERTIFICATIONS",
+    "timestamp": "2025-05-31T17:06:54.492076"
+  },
+  {
+    "role": "user",
+    "content": "address",
+    "timestamp": "2025-05-31T17:07:00.973427"
+  },
+  {
+    "role": "assistant",
+    "content": "I couldn't find specific information about 'address' in the document. Could you try asking about the main content or specific sections of the document?",
+    "timestamp": "2025-05-31T17:07:00.973461"
+  },
+  {
+    "role": "user",
+    "content": "address about anuj",
+    "timestamp": "2025-05-31T17:07:08.519977"
+  },
+  {
+    "role": "assistant",
+    "content": "Based on your question about 'address about anuj', here's the most relevant information from the document:\n\nANUJ PAL\n+91-9389526851 ⋄ Etah, Uttar Pradesh\nanujpal27669@gmail.com ⋄ https://www.linkedin.com/in/anuj-pal-dev/ ⋄ https://github.com/anuj-pal27\nEDUCATION\nB.Tech, Raja Balwant Singh Engineering Technical Campus.\n09/2022 to 09/2026\nCGPA- 8.13\nAgra, UP\nIntermediate, Amar Memorial Public School\n 07/2021\nPercentage- 81.6%\nHaldwani,UK\nHigh School,    Amar Memorial Public School\n05/2019\nPercentage- 80%\nHaldwani, UK\nSKILLS\nProgramming Languages: Javascript, Typescript (Beginner), Python , C ,C++\nPROJECTS\nHotel Booking Website (https://airlisting.onrender.com/listings)\n  • Developed a full-stack web application similar to Airbnb, allowing users to browse hotel listings from \n     various locations, create their own listings, and book accommodations.\n  • Features include hotel listing creation, boo",
+    "timestamp": "2025-05-31T17:07:08.520007"
+  }
+]

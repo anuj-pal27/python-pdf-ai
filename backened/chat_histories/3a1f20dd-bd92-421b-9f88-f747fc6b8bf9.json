@@ -1,0 +1,17 @@
+[
+  {
+    "role": "assistant",
+    "content": "Hello! I've successfully processed your document 'UNIT-II-Basic-Structural-Modelling-part-1-1.pdf'. I can help you find information, answer questions, or provide summaries. What would you like to know?",
+    "timestamp": "2025-05-31T17:34:17.987358"
+  },
+  {
+    "role": "user",
+    "content": "hii",
+    "timestamp": "2025-05-31T17:35:12.532735"
+  },
+  {
+    "role": "assistant",
+    "content": "I couldn't find specific information about 'hii' in the document. Could you try asking about the main content or specific sections of the document?",
+    "timestamp": "2025-05-31T17:35:12.533319"
+  }
+]
