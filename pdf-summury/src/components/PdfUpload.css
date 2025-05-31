@@ -253,7 +253,7 @@
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .grid-cols-1.lg\\:grid-cols-2 {
+  .grid-cols-1.lg\:grid-cols-2 {
     grid-template-columns: 1fr;
   }
   

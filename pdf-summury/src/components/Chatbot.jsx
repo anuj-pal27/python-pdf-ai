@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, MessageCircle, Trash2, FileText, X, Bot, User, Loader2, HelpCircle } from 'lucide-react';
+import { CiCirclePlus } from 'react-icons/ci';
 
 const Chatbot = ({ documentId, documentName, onClose }) => {
   const [messages, setMessages] = useState([]);

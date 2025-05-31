@@ -81,9 +81,9 @@ def get_groq_llm():
         return ChatGroq(
             groq_api_key=groq_api_key,
             model_name="mixtral-8x7b-32768",
-            temperature=0.1,
-            max_tokens=1024,
-            timeout=60,
+            temperature=0.2,  # Slightly increased for more creative responses
+            max_tokens=2048,  # Increased from 1024 to 2048
+            timeout=90,       # Increased timeout for longer responses
             max_retries=3,
         )
     except Exception as e:
@@ -97,27 +97,33 @@ def answer_question_with_groq(question: str, context_chunks: List[str]) -> str:
         if not llm:
             raise Exception("Groq LLM not available")
         
-        # Combine relevant chunks
-        context = "\n\n".join(context_chunks[:3])  # Use top 3 chunks
+        # Combine more relevant chunks for better context
+        context = "\n\n".join(context_chunks[:5])  # Increased from 3 to 5 chunks
         
-        # Create a detailed prompt
+        # Create a more detailed prompt for comprehensive responses
         prompt = f"""
-You are an AI assistant helping users understand a document. Based on the provided context, answer the user's question accurately and helpfully.
+You are an AI assistant helping users understand a document thoroughly. Based on the provided context, give a comprehensive, detailed, and well-structured answer to the user's question.
 
 Context from the document:
 {context}
 
 User's Question: {question}
 
-Instructions:
-1. Answer based ONLY on the information provided in the context
-2. If the answer isn't in the context, say "I don't have enough information in the document to answer that question"
-3. Be specific and detailed in your response
-4. If asked about a person, provide their details from the context
-5. If asked about skills, projects, or experience, list them clearly
-6. Keep your answer focused and relevant to the question
+Instructions for your response:
+1. Provide a DETAILED and COMPREHENSIVE answer based on the information in the context
+2. Structure your response with clear sections and bullet points when appropriate
+3. Include specific examples, names, dates, numbers, and details from the document
+4. If the question asks for a summary, provide a thorough overview with multiple paragraphs
+5. If asked about skills or experience, list them comprehensively with details
+6. If asked about projects, describe each project with objectives, technologies, and outcomes
+7. For educational background, include institutions, degrees, dates, and relevant coursework
+8. Always aim for 200-400 words minimum unless the content doesn't support it
+9. Use professional language and organize information logically
+10. If multiple aspects are relevant, address each one thoroughly
+11. Include context and background information to make the answer complete
+12. If the answer isn't fully available in the context, clearly state what information is missing
 
-Answer:"""
+Provide a detailed, well-organized response:"""
 
         response = llm.invoke(prompt)
         return response.content.strip()
@@ -127,110 +133,124 @@ Answer:"""
         return None
 
 def smart_qa_fallback(question: str, text_chunks: List[str]) -> str:
-    """Improved fallback Q&A with better logic"""
+    """Enhanced fallback Q&A with better logic and longer responses"""
     question_lower = question.lower()
     
     # Extract keywords from question
     question_words = re.findall(r'\b\w+\b', question_lower)
-    question_words = [word for word in question_words if len(word) > 2 and word not in ['what', 'how', 'why', 'when', 'where', 'who', 'the', 'and', 'for', 'are', 'you', 'can']]
+    question_keywords = [word for word in question_words if len(word) > 3]
     
-    # Score chunks based on keyword matches
+    # Find relevant chunks with better scoring
+    relevant_chunks = []
     chunk_scores = []
-    for i, chunk in enumerate(text_chunks):
+    
+    for chunk in text_chunks:
         chunk_lower = chunk.lower()
         score = 0
         
-        # Count keyword matches
-        for word in question_words:
-            score += chunk_lower.count(word) * 2
-        
-        # Bonus for exact phrase matches
-        if any(phrase in chunk_lower for phrase in question_words):
-            score += 5
+        # Keyword matching with different weights
+        for keyword in question_keywords:
+            if keyword in chunk_lower:
+                # Higher score for exact matches
+                score += chunk_lower.count(keyword) * 3
             
-        chunk_scores.append((score, i, chunk))
-    
-    # Sort by score and get best matches
-    chunk_scores.sort(reverse=True, key=lambda x: x[0])
-    
-    if chunk_scores[0][0] > 0:  # If we found relevant content
-        best_chunks = [chunk for score, _, chunk in chunk_scores[:3] if score > 0]
+            # Partial matching for related terms
+            for word in chunk_lower.split():
+                if keyword in word or word in keyword:
+                    score += 1
         
-        # Try Groq first
-        groq_answer = answer_question_with_groq(question, best_chunks)
-        if groq_answer:
-            return groq_answer
-        
-        # Fallback to rule-based answers
-        return generate_contextual_answer(question, best_chunks)
+        if score > 0:
+            relevant_chunks.append(chunk)
+            chunk_scores.append(score)
+    
+    # Sort by relevance score
+    if relevant_chunks:
+        sorted_chunks = [chunk for _, chunk in sorted(zip(chunk_scores, relevant_chunks), reverse=True)]
+        top_chunks = sorted_chunks[:8]  # Increased from 5 to 8 chunks
     else:
-        return f"I couldn't find specific information about '{question}' in the document. Could you try asking about the main content or specific sections of the document?"
-
-def generate_contextual_answer(question: str, chunks: List[str]) -> str:
-    """Generate contextual answers based on question type"""
-    question_lower = question.lower()
-    relevant_text = " ".join(chunks)[:800]
+        top_chunks = text_chunks[:8]
     
-    if any(word in question_lower for word in ['skills', 'programming', 'languages', 'technologies']):
-        # Extract skills information
-        skills_section = ""
-        for chunk in chunks:
-            if 'skills' in chunk.lower() or 'programming' in chunk.lower():
-                skills_section = chunk
-                break
+    # Generate comprehensive response based on question type
+    if any(word in question_lower for word in ['summary', 'summarize', 'overview', 'about']):
+        response = "## Document Summary\n\n"
+        response += "Based on my analysis of the document, here's a comprehensive overview:\n\n"
         
-        if skills_section:
-            return f"Based on the document, here are the skills mentioned:\n\n{skills_section}"
-        else:
-            return "I found some technical content but couldn't identify a specific skills section in the document."
-    
-    elif any(word in question_lower for word in ['projects', 'work', 'experience', 'built', 'developed']):
-        # Extract projects information
-        projects_info = []
-        for chunk in chunks:
-            if any(word in chunk.lower() for word in ['project', 'developed', 'built', 'website', 'application']):
-                projects_info.append(chunk)
+        # Combine multiple chunks for a thorough summary
+        combined_text = " ".join(top_chunks)
         
-        if projects_info:
-            return f"Here are the projects mentioned in the document:\n\n" + "\n\n".join(projects_info[:2])
-        else:
-            return "I couldn't find specific project information in the document."
-    
-    elif any(word in question_lower for word in ['education', 'degree', 'school', 'college', 'university']):
-        # Extract education information
-        education_info = []
-        for chunk in chunks:
-            if any(word in chunk.lower() for word in ['education', 'b.tech', 'degree', 'school', 'college', 'university', 'cgpa', 'percentage']):
-                education_info.append(chunk)
+        # Extract key information patterns
+        sentences = re.split(r'[.!?]+', combined_text)
+        important_sentences = [s.strip() for s in sentences if len(s.strip()) > 30][:12]
         
-        if education_info:
-            return f"Here's the education information from the document:\n\n" + "\n\n".join(education_info[:2])
-        else:
-            return "I couldn't find specific education information in the document."
-    
-    elif any(word in question_lower for word in ['contact', 'email', 'phone', 'linkedin', 'github']):
-        # Extract contact information
-        contact_info = []
-        for chunk in chunks:
-            if any(word in chunk.lower() for word in ['@', 'linkedin', 'github', '+91', 'email', 'phone']):
-                contact_info.append(chunk)
+        response += "\n".join(f"• {sentence.strip()}" for sentence in important_sentences if sentence.strip())
         
-        if contact_info:
-            return f"Here's the contact information from the document:\n\n" + "\n\n".join(contact_info[:1])
-        else:
-            return "I couldn't find specific contact information in the document."
-    
-    elif any(word in question_lower for word in ['who', 'name', 'person']):
-        # Extract personal information
-        for chunk in chunks:
-            if any(char.isupper() for char in chunk[:50]):  # Likely contains names
-                return f"Based on the document, here's the personal information:\n\n{chunk[:300]}"
+        if len(response) < 200:
+            response += f"\n\nAdditional Context:\n{' '.join(top_chunks[:3])}"
+            
+    elif any(word in question_lower for word in ['skill', 'competenc', 'abilit', 'expert', 'proficien']):
+        response = "## Skills and Competencies\n\n"
+        response += "Based on the document content, here are the identified skills and competencies:\n\n"
         
-        return "I found some personal information but couldn't extract specific details."
-    
+        skills_text = " ".join(top_chunks)
+        # Look for skill-related patterns
+        skill_indicators = re.findall(r'(?:skill|expert|proficient|experience|knowledge|competent|familiar).*?(?:[.!?]|$)', skills_text, re.IGNORECASE)
+        
+        for i, skill in enumerate(skill_indicators[:10], 1):
+            response += f"**{i}.** {skill.strip()}\n\n"
+            
+        if len(skill_indicators) == 0:
+            response += "The document contains the following relevant information about capabilities:\n\n"
+            response += "\n\n".join(top_chunks[:4])
+            
+    elif any(word in question_lower for word in ['project', 'work', 'experience', 'job', 'role', 'position']):
+        response = "## Professional Experience and Projects\n\n"
+        response += "Here's a detailed breakdown of the professional experience and projects mentioned:\n\n"
+        
+        for i, chunk in enumerate(top_chunks[:6], 1):
+            if len(chunk.strip()) > 50:
+                response += f"### Project/Experience {i}:\n{chunk.strip()}\n\n"
+                
+    elif any(word in question_lower for word in ['education', 'degree', 'university', 'college', 'school', 'academic']):
+        response = "## Educational Background\n\n"
+        response += "Based on the document, here's the educational information:\n\n"
+        
+        for i, chunk in enumerate(top_chunks[:5], 1):
+            if len(chunk.strip()) > 30:
+                response += f"**Education {i}:** {chunk.strip()}\n\n"
+                
+    elif any(word in question_lower for word in ['contact', 'phone', 'email', 'address', 'location']):
+        response = "## Contact Information\n\n"
+        response += "Here's the contact information found in the document:\n\n"
+        
+        # Look for contact patterns
+        contact_text = " ".join(top_chunks)
+        emails = re.findall(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', contact_text)
+        phones = re.findall(r'(?:\+?1[-.\s]?)?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}', contact_text)
+        
+        if emails:
+            response += f"**Email(s):** {', '.join(emails)}\n\n"
+        if phones:
+            response += f"**Phone(s):** {', '.join(phones)}\n\n"
+            
+        response += "**Additional Details:**\n"
+        response += "\n".join(top_chunks[:3])
+        
     else:
-        # General answer
-        return f"Based on your question about '{question}', here's the most relevant information from the document:\n\n{relevant_text}"
+        # General detailed response
+        response = f"## Response to: {question}\n\n"
+        response += "Based on the document content, here's a comprehensive answer:\n\n"
+        
+        # Provide detailed context from multiple chunks
+        for i, chunk in enumerate(top_chunks[:6], 1):
+            if len(chunk.strip()) > 40:
+                response += f"**Point {i}:** {chunk.strip()}\n\n"
+    
+    # Ensure minimum response length
+    if len(response) < 300:
+        response += f"\n\n**Additional Context:**\nFor more specific information, here are additional relevant details from the document:\n\n"
+        response += "\n\n".join(top_chunks[:4])
+    
+    return response if response.strip() else "I found some information in the document, but I need a more specific question to provide a detailed answer. Could you please rephrase your question or ask about a specific aspect of the document?"
 
 def get_chat_history_path(document_id: str) -> str:
     return os.path.join(CHAT_HISTORY_DIR, f"{document_id}.json")
@@ -348,14 +368,41 @@ async def chat(request: Request):
         # Load chat history
         chat_history = load_chat_history(document_id)
 
-        # Load text chunks for processing
+        # First try Groq for comprehensive answers
+        answer = None
         chunks_path = os.path.join(VECTORSTORE_DIR, f"{document_id}_chunks.json")
+        
         if os.path.exists(chunks_path):
             with open(chunks_path, "r", encoding='utf-8') as f:
                 text_chunks = json.load(f)
-            answer = smart_qa_fallback(message, text_chunks)
+                
+            # Try Groq first for detailed responses
+            vs_path = os.path.join(VECTORSTORE_DIR, document_id)
+            if os.path.exists(vs_path):
+                try:
+                    vectorstore = FAISS.load_local(vs_path, embedding_model, allow_dangerous_deserialization=True)
+                    retriever = vectorstore.as_retriever(search_kwargs={"k": 8})  # Increased from 5 to 8
+                    
+                    # Get relevant context chunks
+                    relevant_docs = retriever.get_relevant_documents(message)
+                    context_chunks = [doc.page_content for doc in relevant_docs]
+                    
+                    # Try Groq for comprehensive answer
+                    answer = answer_question_with_groq(message, context_chunks)
+                    
+                except Exception as groq_error:
+                    print(f"Groq failed: {groq_error}")
+                    answer = None
+            
+            # Fallback to enhanced smart Q&A if Groq fails
+            if not answer:
+                answer = smart_qa_fallback(message, text_chunks)
         else:
             answer = "I'm having trouble accessing the document content. Please try uploading the document again."
+
+        # Ensure we have a substantial response
+        if answer and len(answer) < 150:
+            answer += "\n\nWould you like me to elaborate on any specific aspect or provide more details about a particular area?"
 
         # Update chat history
         new_messages = [
