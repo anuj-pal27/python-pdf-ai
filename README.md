@@ -91,7 +91,7 @@ Before you begin, ensure you have the following installed:
 
 ```bash
 git clone https://github.com/anuj-pal27/python-pdf-ai.git
-cd ai-planet-pdf-chatbot
+cd python-pdf-ai
 ```
 
 ### 2. **Get Your Groq API Key** 🔑
